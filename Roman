@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Roman Vocab Quest</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'IM Fell English', serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://cdn.glitch.global/7d38d087-537f-4c98-8acc-f14cc30e1756/map.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+    #level1Content, #level2Content, #level3Content {
+  display: none;
+}
+    #startScreen {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-start;
+      height: 100vh;
+      padding-left: 1%;
+      position: relative;
+    }
+    #startScreen img.character {
+      height: 88vh;
+      object-fit: contain;
+      align-self: flex-end;
+    }
+    .scroll-container {
+      position: relative;
+      max-width: 780px;
+      margin-bottom: 220px;
+      margin-left: -180px;
+    }
+    .scroll-text {
+      position: absolute;
+      top: 26%;
+      left: 10%;
+      right: 10%;
+      text-align: center;
+      color: #4a2d1a;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: rgba(255,248,220,0.95);
+      padding: 20px;
+      border: 2px solid #d4b083;
+      border-radius: 10px;
+    }
+    .word-pair {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    select, button {
+      font-family: 'IM Fell English', serif;
+      font-size: 16px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #a37d4f;
+    }
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #4a2d1a;
+    }
+    .drop-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      background: #fffaf1;
+      padding: 8px 12px;
+      border: 1px solid #d4b083;
+      border-radius: 6px;
+    }
+    .drop-zone {
+      width: 180px;
+      min-height: 30px;
+      border: 2px dashed #a37d4f;
+      background-color: #fff8e1;
+      border-radius: 6px;
+      padding: 4px 8px;
+      text-align: center;
+    }
+    .drop-label {
+      flex: 1;
+    }
+    .drag-word {
+      background: #fdf3dc;
+      padding: 6px 12px;
+      border: 1px solid #c0985f;
+      border-radius: 6px;
+      cursor: grab;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="startScreen">
+  <img src="https://cdn.glitch.global/7d38d087-537f-4c98-8acc-f14cc30e1756/character.png" alt="Caesar" class="character">
+  <div class="scroll-container">
+    <img src="https://cdn.glitch.global/7d38d087-537f-4c98-8acc-f14cc30e1756/paper.png" alt="Scroll" style="width:100%;">
+    <div class="scroll-text">
+      Mykhailo the Great,<br>
+      we suspect you haven't studied your words!<br><br>
+      Perhaps today you shall regret it.<br><br>
+      Let's see how many lands you can conquer.<br><br>
+      <img src="https://cdn.glitch.global/7d38d087-537f-4c98-8acc-f14cc30e1756/start.png" alt="Start" onclick="startGame()" style="margin-top:20px; width:180px; cursor:pointer;">
+    </div>
+  </div>
+</div>
+    </div>
+  <div id="level1Content" class="container">
+  <h2 style="text-align:center; color:#4a2d1a;">⚔️ Level I: Gallia – Synonym Stronghold</h2>
+  <form id="quizForm">
+    <div class="word-pair">Avoid <select name="Avoid"><option value="">--Choose--</option><option value="Hide">Hide</option><option value="Escape">Escape</option><option value="Ignore">Ignore</option></select></div>
+    <div class="word-pair">Advice <select name="Advice"><option value="">--Choose--</option><option value="Warning">Warning</option><option value="Suggestion">Suggestion</option><option value="Message">Message</option></select></div>
+    <div class="word-pair">Cheerful <select name="Cheerful"><option value="">--Choose--</option><option value="Loud">Loud</option><option value="Happy">Happy</option><option value="Positive">Positive</option></select></div>
+    <div class="word-pair">Influence <select name="Influence"><option value="">--Choose--</option><option value="Assist">Assist</option><option value="Change">Change</option><option value="Affect">Affect</option></select></div>
+    <div class="word-pair">Convince <select name="Convince"><option value="">--Choose--</option><option value="Persuade">Persuade</option><option value="Propose">Propose</option><option value="Prevent">Prevent</option></select></div>
+    <div class="word-pair">Knowledge <select name="Knowledge"><option value="">--Choose--</option><option value="Courage">Courage</option><option value="Memory">Memory</option><option value="Wisdom">Wisdom</option></select></div>
+    <div class="word-pair">Allow <select name="Allow"><option value="">--Choose--</option><option value="Permit">Permit</option><option value="Let">Let</option><option value="Delay">Delay</option></select></div>
+    <div class="word-pair">Suitable <select name="Suitable"><option value="">--Choose--</option><option value="Appropriate">Appropriate</option><option value="Normal">Normal</option><option value="Simple">Simple</option></select></div>
+    <div class="word-pair">Predict <select name="Predict"><option value="">--Choose--</option><option value="Explain">Explain</option><option value="Guess">Guess</option><option value="Forecast">Forecast</option></select></div>
+    <div class="word-pair">Efficient <select name="Efficient"><option value="">--Choose--</option><option value="Strong">Strong</option><option value="Effective">Effective</option><option value="Heavy">Heavy</option></select></div>
+    <button type="button" onclick="checkAnswers()">Submit</button>
+  </form>
+  <div class="result"><span id="resultText"></span></div>
+  <button id="nextLevelBtn" onclick="goToLevel2()" style="display:none; margin-top: 20px;">Next Level</button>
+</div>
+<div id="level2Content" class="container" style="display: none;">
+  <h2 style="text-align:center; color:#4a2d1a;">🏰 Level II: Britannia – Drag & Drop Arena</h2>
+  <p style="text-align:center;">🎯 Drag the correct word onto each definition:</p>
+  <div style="display: flex; justify-content: space-between; gap: 20px;">
+    <div id="dropZones" style="flex: 1 1 60%; display: flex; flex-direction: column;"></div>
+    <div id="dragWords" style="flex: 1 1 35%; display: flex; flex-direction: column; gap: 12px; align-items: center;"></div>
+  </div>
+  <button onclick="checkDragAndDrop()" style="margin-top:20px">Submit</button>
+  <div class="result"><span id="resultText2"></span></div>
+  <button id="nextLevelBtn2" onclick="goToLevel3()" style="display:none; margin-top: 20px;">Next Level</button>
+</div>
+
+<div id="level3Content" class="container" style="display: none;">
+  <h2 style="text-align:center; color:#4a2d1a;">🏛️ Level III: Egypt – Match the Phrasal Verb</h2>
+  <p style="text-align:center;">🔗 Match the English phrasal verb with its Ukrainian translation:</p>
+  <div style="display: flex; justify-content: space-between; gap: 20px;">
+    <div id="dropZones3" style="flex: 1 1 60%; display: flex; flex-direction: column;"></div>
+    <div id="dragWords3" style="flex: 1 1 35%; display: flex; flex-direction: column; gap: 12px; align-items: center;"></div>
+  </div>
+  <button onclick="checkDragAndDrop3()" style="margin-top:20px">Submit</button>
+  <div class="result"><span id="resultText3"></span></div>
+</div>
+
+<div id="level4Content" class="container" style="display: none;">
+  <h2 style="text-align:center; color:#4a2d1a;">📜 Level IV: Final Scroll – Fill in the Gaps</h2>
+  <p style="text-align:center;">✍️ Complete the tale of a Roman hero using the right words:</p>
+  <form id="fillForm">
+    <p>Young Marcus was known for his great
+      <select name="q1">
+        <option value="">--choose--</option>
+        <option value="determination">determination</option>
+        <option value="frustration">frustration</option>
+        <option value="kindness">kindness</option>
+        <option value="patience">patience</option>
+        <option value="influence">influence</option>
+      </select>
+      on the battlefield.</p>
+
+    <p>He always tried to
+      <select name="q2">
+        <option value="">--choose--</option>
+        <option value="stick to">stick to</option>
+        <option value="put down">put down</option>
+        <option value="stand up">stand up</option>
+        <option value="dry up">dry up</option>
+        <option value="hang out">hang out</option>
+      </select>
+      his principles, no matter the cost.</p>
+
+    <p>One day, he had to
+      <select name="q3">
+        <option value="">--choose--</option>
+        <option value="carry on">carry on</option>
+        <option value="give in">give in</option>
+        <option value="close in">close in</option>
+        <option value="write down">write down</option>
+        <option value="take in">take in</option>
+      </select>
+      even though his comrades had fallen.</p>
+
+    <p>Later, he would often
+      <select name="q4">
+        <option value="">--choose--</option>
+        <option value="look forward">look forward</option>
+        <option value="end up">end up</option>
+        <option value="found out">found out</option>
+        <option value="dry up">dry up</option>
+        <option value="encounter with">encounter with</option>
+      </select>
+      to the tales told about his bravery.</p>
+
+    <p>Finally, he
+      <select name="q5">
+        <option value="">--choose--</option>
+        <option value="end up">end up</option>
+        <option value="found out">found out</option>
+        <option value="look forward">look forward</option>
+        <option value="stick to">stick to</option>
+        <option value="write down">write down</option>
+      </select>
+      as the greatest general of his time.</p>
+
+    <button type="button" onclick="checkFillTask()">Submit</button>
+  </form>
+  <div class="result"><span id="resultText4"></span></div>
+</div>
+
+$1
+  <script>
+
+function goToLevel4() {
+  document.getElementById("level3Content").style.display = "none";
+  document.getElementById("level4Content").style.display = "block";
+}
+
+function checkFillTask() {
+  const correct = {
+    q1: "determination",
+    q2: "stick to",
+    q3: "carry on",
+    q4: "look forward",
+    q5: "end up"
+  };
+  let score = 0;
+  const form = document.getElementById("fillForm");
+  for (let key in correct) {
+    if (form.elements[key].value === correct[key]) score++;
+  }
+  const percent = (score / 5) * 100;
+  document.getElementById("resultText4").textContent = percent >= 80
+    ? `🏛️ ${percent}% — The Senate honours you, Marcus!`
+    : `⚠️ ${percent}% — Return to the scrolls, young one.`;
+}
+
+function startGame() {
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("level1Content").style.display = "block";
+}
+
+function checkAnswers() {
+  const correctAnswers = {
+    Avoid: "Escape",
+    Advice: "Suggestion",
+    Cheerful: "Positive",
+    Influence: "Affect",
+    Convince: "Persuade",
+    Knowledge: "Wisdom",
+    Allow: "Permit",
+    Suitable: "Appropriate",
+    Predict: "Forecast",
+    Efficient: "Effective"
+  };
+  let score = 0;
+  const form = document.getElementById('quizForm');
+  for (let word in correctAnswers) {
+    const selected = form.elements[word].value;
+    if (selected === correctAnswers[word]) score++;
+  }
+  const percent = (score / 10) * 100;
+  document.getElementById('resultText').textContent = percent >= 80 ? `✅ ${percent}% — Gallia Conquered!` : `❌ ${percent}% — Try Again!`;
+  if (percent >= 80) {
+    document.getElementById("nextLevelBtn").style.display = "block";
+  }
+}
+
+function goToLevel2() {
+  document.getElementById("level1Content").style.display = "none";
+  document.getElementById("level2Content").style.display = "block";
+  setTimeout(() => renderDraggables(), 50);
+}
+
+const wordPairs = [
+  { word: "SPLENDID", match: "Very impressive or beautiful" },
+  { word: "ENCOUNTER WITH", match: "To meet someone unexpectedly" },
+  { word: "DETERMINATION", match: "The quality of deciding and continuing to do something difficult" },
+  { word: "INTIMIDATED", match: "Feeling scared or nervous because someone seems powerful" },
+  { word: "IRRESPONSIBLE", match: "Not taking care of things as expected" },
+  { word: "FRUSTRATION", match: "The feeling when something doesn't go the way you want" },
+  { word: "KINDNESS", match: "Being nice and caring to others" },
+  { word: "TO INHERIT", match: "To receive something after someone dies" },
+  { word: "PREFERENCE", match: "Liking something more than another thing" },
+  { word: "PATIENCE", match: "Being able to wait without getting angry" }
+];
+
+function renderDraggables() {
+  const dragContainer = document.getElementById("dragWords");
+  const dropContainer = document.getElementById("dropZones");
+  if (!dragContainer || !dropContainer) return;
+
+  dragContainer.innerHTML = "";
+  dropContainer.innerHTML = "";
+
+  const shuffled = [...wordPairs];
+  shuffled.sort(() => Math.random() - 0.5);
+
+  shuffled.forEach(pair => {
+    const wordDiv = document.createElement("div");
+    wordDiv.className = "drag-word";
+    wordDiv.draggable = true;
+    wordDiv.textContent = pair.word;
+    wordDiv.setAttribute("data-match", pair.match);
+    wordDiv.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text/plain", pair.word);
+      e.dataTransfer.setData("match", pair.match);
+    });
+    dragContainer.appendChild(wordDiv);
+  });
+
+  wordPairs.forEach(pair => {
+    const block = document.createElement("div");
+    block.className = "drop-block";
+    const zone = document.createElement("div");
+    zone.className = "drop-zone";
+    zone.setAttribute("data-accept", pair.match);
+    zone.addEventListener("dragover", e => e.preventDefault());
+    zone.addEventListener("drop", e => {
+      e.preventDefault();
+      const word = e.dataTransfer.getData("text/plain");
+      const match = e.dataTransfer.getData("match");
+      zone.textContent = word;
+      zone.setAttribute("data-match", match);
+    });
+    zone.addEventListener("click", () => {
+      zone.textContent = "";
+      zone.removeAttribute("data-match");
+    });
+    const label = document.createElement("span");
+    label.className = "drop-label";
+    label.textContent = pair.match;
+    block.appendChild(zone);
+    block.appendChild(label);
+    dropContainer.appendChild(block);
+  });
+}
+
+function checkDragAndDrop() {
+  let correct = 0;
+  document.querySelectorAll('#dropZones .drop-zone').forEach(zone => {
+    if (zone.getAttribute('data-accept') === zone.getAttribute('data-match')) correct++;
+  });
+  const percent = (correct / wordPairs.length) * 100;
+  document.getElementById("resultText2").textContent = percent >= 80 ? `🏴‍☠️ ${percent}% — You have invaded Britannia!` : `⚠️ ${percent}% — Not yet ready to cross the channel.`;
+  if (percent >= 80) {
+    document.getElementById("nextLevelBtn2").style.display = "block";
+  }
+}
+
+function goToLevel3() {
+  document.getElementById("level2Content").style.display = "none";
+  document.getElementById("level3Content").style.display = "block";
+  renderDraggables3();
+}
+
+const wordPairs3 = [
+  { word: "Look forward", match: "чекати з нетерпінням" },
+  { word: "Write down", match: "записати" },
+  { word: "Stick to", match: "дотримуватися" },
+  { word: "Put down", match: "вписати" },
+  { word: "Stand up", match: "постояти за себе" },
+  { word: "Train up", match: "тренувати" },
+  { word: "Dry up", match: "замовкни" },
+  { word: "End up", match: "закінчити" },
+  { word: "Carry on", match: "продовжувати" },
+  { word: "Take in", match: "прихистити" },
+  { word: "Hang out", match: "знаходитися поряд" },
+  { word: "Close in", match: "наближатися" },
+  { word: "Found out", match: "дізнатися" }
+];
+
+function renderDraggables3() {
+  const dragContainer = document.getElementById("dragWords3");
+  const dropContainer = document.getElementById("dropZones3");
+  if (!dragContainer || !dropContainer) return;
+
+  dragContainer.innerHTML = "";
+  dropContainer.innerHTML = "";
+
+  const shuffled = [...wordPairs3];
+  shuffled.sort(() => Math.random() - 0.5);
+
+  shuffled.forEach(pair => {
+    const wordDiv = document.createElement("div");
+    wordDiv.className = "drag-word";
+    wordDiv.draggable = true;
+    wordDiv.textContent = pair.word;
+    wordDiv.setAttribute("data-match", pair.match);
+    wordDiv.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text/plain", pair.word);
+      e.dataTransfer.setData("match", pair.match);
+    });
+    dragContainer.appendChild(wordDiv);
+  });
+
+  wordPairs3.forEach(pair => {
+    const block = document.createElement("div");
+    block.className = "drop-block";
+    const zone = document.createElement("div");
+    zone.className = "drop-zone";
+    zone.setAttribute("data-accept", pair.match);
+    zone.addEventListener("dragover", e => e.preventDefault());
+    zone.addEventListener("drop", e => {
+      e.preventDefault();
+      const word = e.dataTransfer.getData("text/plain");
+      const match = e.dataTransfer.getData("match");
+      zone.textContent = word;
+      zone.setAttribute("data-match", match);
+    });
+    zone.addEventListener("click", () => {
+      zone.textContent = "";
+      zone.removeAttribute("data-match");
+    });
+    const label = document.createElement("span");
+    label.className = "drop-label";
+    label.textContent = pair.match;
+    block.appendChild(zone);
+    block.appendChild(label);
+    dropContainer.appendChild(block);
+  });
+}
+
+function checkDragAndDrop3() {
+  let correct = 0;
+  document.querySelectorAll('#dropZones3 .drop-zone').forEach(zone => {
+    if (zone.getAttribute('data-accept') === zone.getAttribute('data-match')) {
+      correct++;
+    }
+  });
+  const percent = (correct / wordPairs3.length) * 100;
+  document.getElementById("resultText3").textContent = percent >= 80
+    ? `🎉 ${percent}% — You have unlocked the secrets of Egypt!`
+    : `⏳ ${percent}% — Try again, O Pharaoh.`;
+  if (percent >= 80) {
+    goToLevel4();
+  }
+}
+</script>
+</body>
+</html>
